@@ -1,69 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D PCB Viewer</title>
+    <title>Modelo 3D PCB - Componentes</title>
+    <!-- Importa el visor de Spline -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.49/build/spline-viewer.js"></script>
     <style>
+        /* Estilos básicos */
         body {
             margin: 0;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
         }
-        canvas {
-            display: block;
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #0078D7;
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .viewer-container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
+            height: 500px;
+            text-align: center;
+        }
+
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            padding: 10px;
+        }
+
+        h2 {
+            color: #0078D7;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #0078D7;
+            color: white;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r146/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/MTLLoader.js"></script>
+    <!-- Título principal -->
+    <header>
+        <h1>DataBridge by InnobaTIC</h1>
+    </header>
 
-    <script>
-        // Scene setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+    <!-- Visor 3D -->
+    <div class="viewer-container">
+        <spline-viewer url="https://prod.spline.design/UkQiB7kjDN-UNRUh/scene.splinecode"></spline-viewer>
+    </div>
 
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft white light
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
-        scene.add(directionalLight);
+    <!-- Secciones de componentes -->
+    <div class="content">
+        <h2>1. Microcontrolador ESP32</h2>
+        <p>El corazón de esta PCB es el microcontrolador ESP32, una solución versátil con conectividad WiFi y Bluetooth, ideal para proyectos IoT.</p>
 
-        // Load MTL and OBJ files
-        const mtlLoader = new THREE.MTLLoader();
-        mtlLoader.load('https://raw.githubusercontent.com/alcaaron/innobatic/main/OBJ_PCB_ESP32_2.mtl', (materials) => {
-            materials.preload();
-            const objLoader = new THREE.OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.load('https://raw.githubusercontent.com/alcaaron/innobatic/main/OBJ_PCB_ESP32_2.obj', (object) => {
-                scene.add(object);
-            },
-            (xhr) => console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`),
-            (error) => console.error('An error occurred:', error));
-        });
+        <h2>2. Regulador de Voltaje</h2>
+        <p>El regulador de voltaje asegura una fuente de alimentación estable, convirtiendo niveles variables de voltaje en un suministro adecuado para los componentes.</p>
 
-        // Camera position
-        camera.position.z = 5;
+        <h2>3. Conectores GPIO</h2>
+        <p>Los pines GPIO permiten la conexión con sensores, actuadores y otros periféricos para ampliar las funcionalidades del sistema.</p>
 
-        // Resize handling
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
+        <h2>4. LEDs Indicadores</h2>
+        <p>Los LEDs proporcionan información visual sobre el estado de funcionamiento de la PCB, como alimentación y actividad de red.</p>
 
-        // Animation loop
-        const animate = function () {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        };
+        <h2>5. Antena Integrada</h2>
+        <p>La antena integrada mejora la recepción y transmisión de señales inalámbricas, optimizando el rendimiento de la conectividad del ESP32.</p>
+    </div>
 
-        animate();
-    </script>
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2024 Modelo 3D de PCB | Proyecto Electrónico</p>
+    </footer>
 </body>
 </html>
