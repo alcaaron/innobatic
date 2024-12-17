@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo 3D PCB - Componentes</title>
+    <title>DataBridge by InnobaTIC</title>
     <!-- Importa el visor de Spline -->
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.49/build/spline-viewer.js"></script>
     <style>
-        /* Estilos básicos */
+        /* Estils bàsics */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #1e1e1e; /* Fons gris fosc */
+            color: #f4f4f9; /* Text clar */
         }
 
         header {
@@ -39,9 +39,9 @@
         spline-viewer {
             width: 100%;
             height: 100%;
-            border: 2px solid #ddd;
+            border: 2px solid #333;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
         }
 
         .content {
@@ -56,8 +56,31 @@
             margin-top: 20px;
         }
 
-        p {
+        p, ul {
             font-size: 1.1em;
+        }
+
+        .diagram-space {
+            margin: 20px auto;
+            width: 100%;
+            height: 400px;
+            background-color: #333;
+            border-radius: 8px;
+            text-align: center;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rx-diagram {
+            height: 500px;
+            width: 900px;
+        }
+
+        .tx-diagram {
+            height: 200px;
+            width: 800px;
         }
 
         footer {
@@ -70,7 +93,7 @@
     </style>
 </head>
 <body>
-    <!-- Título principal -->
+    <!-- Títol principal -->
     <header>
         <h1>DataBridge by InnobaTIC</h1>
     </header>
@@ -80,27 +103,65 @@
         <spline-viewer url="https://prod.spline.design/UkQiB7kjDN-UNRUh/scene.splinecode"></spline-viewer>
     </div>
 
-    <!-- Secciones de componentes -->
+    <!-- Seccions de components -->
     <div class="content">
         <h2>1. Microcontrolador ESP32</h2>
-        <p>El corazón de esta PCB es el microcontrolador ESP32, una solución versátil con conectividad WiFi y Bluetooth, ideal para proyectos IoT.</p>
+        <ul>
+            <li>Microcontrolador ESP32-WROOM-32 amb un processador de 240 MHz.</li>
+            <li>Memòria interna SRAM de 520 KB i externa de 4 MB.</li>
+            <li>Memòria flash externa de 16 MB per a dades persistents.</li>
+            <li>Modos de baix consum amb memòries SRAM addicionals de 8 KB.</li>
+        </ul>
 
-        <h2>2. Regulador de Voltaje</h2>
-        <p>El regulador de voltaje asegura una fuente de alimentación estable, convirtiendo niveles variables de voltaje en un suministro adecuado para los componentes.</p>
+        <h2>2. Regulador de Tensió</h2>
+        <ul>
+            <li>Regulador principal: TSR 1-2450SM per convertir de 12-36V a 5V.</li>
+            <li>Regulador secundari: AMS1117-3.3 per convertir de 5V a 3.3V.</li>
+            <li>Detector Brown-Out (BOD) per gestionar caigudes de tensió.</li>
+        </ul>
 
-        <h2>3. Conectores GPIO</h2>
-        <p>Los pines GPIO permiten la conexión con sensores, actuadores y otros periféricos para ampliar las funcionalidades del sistema.</p>
+        <h2>3. Protecció de PCB</h2>
+        <ul>
+            <li>Vernís acrílic per evitar curtcircuits per humitat o pols.</li>
+            <li>Encapsulants epòxics per dissipació tèrmica i resistència mecànica.</li>
+        </ul>
 
-        <h2>4. LEDs Indicadores</h2>
-        <p>Los LEDs proporcionan información visual sobre el estado de funcionamiento de la PCB, como alimentación y actividad de red.</p>
+        <h2>4. Connexions Industrials</h2>
+        <ul>
+            <li>Port CAN amb MCP2515 i transceptor TJA1050 per robustesa i compatibilitat.</li>
+            <li>Port UART amb connector femella JST de 4 pins.</li>
+        </ul>
 
-        <h2>5. Antena Integrada</h2>
-        <p>La antena integrada mejora la recepción y transmisión de señales inalámbricas, optimizando el rendimiento de la conectividad del ESP32.</p>
+        <h2>5. Alimentació</h2>
+        <ul>
+            <li>Entrada de corrent continu (12-36V) o altern (280V a 50Hz).</li>
+            <li>Sistema de seguiment de tensió i memòria EEPROM per evitar pèrdues de dades en caigudes de tensió.</li>
+        </ul>
+
+        <h2>6. Software</h2>
+        <ul>
+            <li><strong>Recepció de dades UART:</strong> configuració del port amb baud rate, paritat i control d’interrupcions.</li>
+            <li><strong>Recepció CAN:</strong> configuració del controlador MCP2515 per a filtres i màscares específiques.</li>
+            <li><strong>Gestió d’interrupcions:</strong> l’ESP32 entra en mode "deep sleep" i es desperta només amb senyals rellevants.</li>
+            <li><strong>Validació de dades:</strong> comprovació d’integritat amb CRC o checksum.</li>
+            <li><strong>Gestió de baixades de tensió:</strong> les dades no transmeses es desen a la memòria EEPROM per evitar pèrdues.</li>
+            <li><strong>Actualització OTA:</strong> procés per actualitzar el firmware del dispositiu sense perdre funcionalitat.</li>
+        </ul>
+
+        <h3>Diagrama d’estats de recepció de dades</h3>
+        <div>
+            <img class="rx-diagram"src="./rx.png" alt="RX diagram">
+        </div>
+
+        <h3>Diagrama d’estats de transmissió</h3>
+        <div>
+            <img class="tx-diagram"src="./tx.png" alt="TX diagram">
+        </div>
     </div>
 
-    <!-- Pie de página -->
+    <!-- Peu de pàgina -->
     <footer>
-        <p>&copy; 2024 Modelo 3D de PCB | Proyecto Electrónico</p>
+        <p>&copy; 2024 DataBridge | InnobaTIC</p>
     </footer>
 </body>
 </html>
